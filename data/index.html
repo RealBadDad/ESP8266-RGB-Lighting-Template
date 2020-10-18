@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!-- 
+  --------------------------------------------------------------------------------
+  12th Oct 2020
+  Project: RGB_Light_Template
+  Author: RealBadDad
+  Platforms: ESP8266 - NodeMCU
+  ------------------------------------------------------------------------------
+  Description: 
+  RGB_Light_Template 
+  Basic RGB lighting template providing:
+  Basic WEB interface with the following features
+
+  1) Hosted WiFi - Station
+  2) Hard coded WiFi SSID and PASSWORD
+  3) MDNS responder
+  4) SPIFFS filing system
+  5) Storage of settings in file system
+  6) HTML web page in index.html
+  7) Style sheet in style.css
+  8) Websocket data passing
+  9) JSON data passing structures to and from index.html
+  10) OTA update system for embedded code
+
+  This file is the primary web page for the template.
+  
+  This release of the template has been filled in for the overwatch
+  light project that you can find at
+  https://realbaddad.com/overwatch-light/
+
+  ------------------------------------------------------------------------------
+  License:
+  Please see attached LICENSE.txt file for details.
+--------------------------------------------------------------------------------
+-->
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <script src="myscripts.js"></script> 
+  <title id=Title1></title>
+  <meta name="description" content="RGB Light Control Webpage"/>
+  <meta name="author" content="RealBadDad"/>
+</head>
+
+<body onload="javascript:init()">
+
+  <div class="header">
+    <img src="logo.png" id="left_image">
+    <img src="logo.png" id="right_image">
+    <div>
+      <h1 id="Heading1">  </h1>
+    </div>
+    <div>
+      <h2 id="Heading2">  </h2>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-6 contentblock">
+
+      <!-- Rounded switch -->
+      <div class="buttoncontainer">
+        <label for="Itemonoff">ON/OFF</label>
+        <div style="width : 70%;">
+          <label class="switch">
+            <input type="checkbox" id="Itemonoff" onclick="sendDataPacket()"/>
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+            
+      <div class="slidecontainer">
+        <label for="Brightness">Intensity</label>
+        <input type="range" class="barslider" min="10" max="255" id="Brightness" onmouseup="sendDataPacket()"/>
+      </div>
+    
+      <div class="slidecontainer">
+        <label for="Rate">Rate</label>
+        <input type="range" class="barslider" min="0" max="255" id="Rate" onmouseup="sendDataPacket()"/>
+      </div>
+
+      <div class="dropselectcontainer">
+        <label for="Effects">Effect</label>
+        <select name="Effects" id="Effects" onclick="sendDataPacket()">
+          <option value="Solid Fade" selected="selected">0--->Solid - Fade</option>
+          <option value="Solid Spiral">1--->Solid - Spiral</option>
+          <option value="Rainbow">2--->Rainbow</option>
+          <option value="Rainbow Cycle">3--->Rainbow Fade</option>
+          <option value="Rainbow Circle">4--->Rainbow Cycle</option>
+          <option value="Flame">5--->Flame</option>
+          <option value="Dinner">6--->Dinner</option>
+          <option value="BedTime">7--->BedTime</option>
+          <option value="Too loud">8--->Too loud</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="col-6 contentblock">
+
+      <div class="slidecontainer">
+        <label for="UserReqRed"> Red </label>
+        <input type="range" class="barslider" min="0" max="255" id="UserReqRed" onmouseup="sendDataPacket()" />
+        </label>
+      </div>
+
+      <div class="slidecontainer">
+        <label for="UserReqGreen"> Green </label>
+        <input type="range" class="barslider" min="0" max="255" id="UserReqGreen" onmouseup="sendDataPacket()" />
+      </div>
+
+      <div class="slidecontainer">
+        <label for="UserReqBlue"> Blue </label>
+        <input type="range" class="barslider" min="0" max="255" id="UserReqBlue" onmouseup="sendDataPacket()" />
+      </div>
+
+      <div class="coloursample" id="coloursample">
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-12 contentblock">
+      <div class="btn-group">
+        <button class="button" onmouseup="RequestEffect(6)">Dinner</button>
+        <button class="button" onmouseup="RequestEffect(7)">Bedtime</button>
+        <button class="button" onmouseup="RequestEffect(8)">Too Loud</button>
+      </div>
+      <p style="clear:both"><br></p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="http://realbaddad.com">RealBadDad.com</a>
+  </div>
+
+
+</body>
+
+</html>
